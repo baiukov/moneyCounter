@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class='main-container'>
+
+        <div class='title'>
+            <div></div>
+            <h1>Обезьяны вебдизайна</h1>
+            <img src='../images/img.png' alt='close' class='icon' id='close'>
+        </div>
+
+        <div class='list'>
+
+            <div class='sublist' id='tasks'>
+                <div class='item'>
+                    <input readonly value='IOP-57' class='subitem' type="text" name="taskNumber" placeholder="Номер">
+                    <input readonly value='1.57' class='subitem' type="text" name="time" placeholder="Время">
+                    <input readonly value='$59' class='subitem active' type="text" name="price" placeholder="Стоимость">
+                </div>
+            </div>
+
+            <form id='form'>
+                <div class='item'>
+                    <input class='subitem' type="text" id="taskNumber" placeholder="Номер">
+                    <input class='subitem' type="text" id="time" placeholder="Время">
+                    <input readonly value='$0' class='subitem active' type="text" id="price" placeholder="Стоимость">
+                </div>
+                <div class='plus'>
+                    <img src='../images/img.png' alt='add' class='icon'>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class='total'>
+        <h1>Итог за неделю:</h1>
+        <h2 id='total'>$</h1>
+    </div>
+
+</body>
+
+<style>
+    .plus>img {
+        transform: rotate(45deg);
+    }
+
+    .plus {
+        display: flex;
+        justify-content: center;
+    }
+
+    .sublist {
+        max-height: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .title {
+        background-color: #fff;
+        border-radius: 999px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        text-transform: uppercase;
+        font-family: Helvetica, sans-serif;
+        font-weight: 900;
+        font-size: 0.3rem;
+        width: 180px;
+        height: 20px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+    .total {
+        margin-top: 10px;
+        margin-left: 10px;
+        width: 170px;
+        height: 20px;
+        font-size: 0.6rem;
+        background-color: #009e8e;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2px;
+        gap: 5px;
+    }
+
+    .total>h2 {
+        background-color: #fff;
+        border-radius: 20px;
+        width: fit-content;
+        text-align: center;
+        padding: 3px 25px 3px 25px;
+        font-size: 0.6rem;
+    }
+
+    .total>h1 {
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 0.5rem;
+    }
+
+    .icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    .subitem {
+        width: 50px;
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        padding: 5px;
+        font-size: 0.6rem;
+        text-align: center;
+    }
+
+    .active {
+        background-color: #009e8e;
+        color: #fff;
+    }
+
+    .active::placeholder {
+        color: #fff;
+        opacity: 0.7
+    }
+
+    .subitem::placeholder {
+        opacity: 0.4
+    }
+
+    .list {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+
+        flex-direction: column;
+        font-family: Helvetica, sans-serif;
+
+        background: linear-gradient(-45deg, #ff9ca0, #fecfee);
+        width: 200px;
+        height: 200px;
+    }
+
+    .item,
+    .form {
+        display: flex;
+        gap: 5px;
+        width: 20%;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        width: fit-content;
+    }
+</style>
+
+<script>
+
+    const sendMessageToJava = (message) => {
+        window.java.print(message)
+    }
+
+    const wage = 25
+
+    const addTask = (taskId, time) => {
+        const timeValue = time.split('.')
+        const hours = parseInt(timeValue[0] || 0)
+        const minutes = parseInt(timeValue[1] || 0)
+        const totalTime = (hours + (minutes / 60)).toFixed(2)
+
+        const tasks = []
+        const price = wage * totalTime
+
+        const task = document.createElement("div")
+        $(task).attr("id", taskId)
+        $(task).addClass("item")
+
+        const taskNumber = document.createElement("input")
+        $(taskNumber).addClass("subitem")
+        $(taskNumber).attr("type", "text")
+        $(taskNumber).attr("name", "taskNumber")
+        $(taskNumber).attr("placeholder", "Номер")
+        $(taskNumber).val(taskId)
+        $(task).append(taskNumber)
+
+        const taskTime = document.createElement("input")
+        $(taskTime).addClass("subitem")
+        $(taskTime).attr("type", "text")
+        $(taskTime).attr("name", "time")
+        $(taskTime).attr("placeholder", "Время")
+        $(taskTime).val(totalTime)
+        $(task).append(taskTime)
+
+        const taskPrice = document.createElement("input")
+        $(taskPrice).addClass("subitem active")
+        $(taskPrice).attr("type", "text")
+        $(taskPrice).attr("name", "price")
+        $(taskPrice).attr("placeholder", "Стоимость")
+        $(taskPrice).val(`$${price || 0}`)
+        $(taskPrice).attr("readonly", true)
+        $(task).append(taskPrice)
+
+        $("#tasks").append(task)
+        setTotal()
+    }
+
+    const setTotal = () => {
+
+        let total = 0
+
+        $(".active").each(function () {
+            total += parseInt($(this).val().replace('$', '') || 0)
+        })
+
+        $("#total").text(`$${total}`)
+
+    }
+
+    $(".plus").click(() => {
+        const taskId = $("#taskNumber").val()
+        const time = $("#time").val()
+        const timeValue = time.split('.')
+        const hours = parseInt(timeValue[0] || 0)
+        const minutes = parseInt(timeValue[1] || 0)
+        const totalTime = (hours + (minutes / 60)).toFixed(2)
+        saveTask(taskId, time)
+    })
+
+    const saveTask = (taskId, time) => {
+        addTask(taskId, time)
+        sendMessageToJava(`ADD ${taskId} ${time}`)
+    }
+
+    $("#time").on('input', () => {
+        const timeValue = $("#time").val().split('.')
+        const hours = parseInt(timeValue[0] || 0)
+        const minutes = parseInt(timeValue[1] || 0)
+        const totalTime = (hours + (minutes / 60)).toFixed(2)
+
+        $("#price").val(`$${wage * totalTime}`)
+    })
+
+    $(document).ready(() => {
+        sendMessageToJava("READY")
+        setTotal()
+    })
+
+    $("#close").click(() => {
+        sendMessageToJava("CLOSE")
+    })
+
+</script>
+
+</html>
